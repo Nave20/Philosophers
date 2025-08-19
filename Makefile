@@ -2,7 +2,10 @@ SRC_DIR         = src/
 OBJ_DIR         = objs/
 INC_DIR         = header/
 
-SRC_FILES       =	main.c \
+SRC_FILES       =	main.c		\
+					parsing.c	\
+					error.c		\
+					utils.c		\
 
 SOURCES         = $(addprefix $(SRC_DIR), $(SRC_FILES)) \
 
