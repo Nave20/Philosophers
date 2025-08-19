@@ -49,6 +49,7 @@ typedef struct s_all
 //-------------------------------PARSING-------------------------------
 t_all	*parsing_one(int argc, char **argv);
 int		args_verif(char **argv);
+void	no_zero(t_all *all);
 
 //--------------------------------ERRORS-------------------------------
 int		inv_args(void);

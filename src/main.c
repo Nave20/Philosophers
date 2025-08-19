@@ -21,8 +21,8 @@ int	main(int argc, char **argv)
 	if (args_verif(&argv[1]) != 0)
 		return (1);
 	all = parsing_one(argc, argv);
+	no_zero(all);
 	if (!all)
 		return (1);
 	print_all(all);
-	printf(BLUE"Hello World\n"RESET);
 }

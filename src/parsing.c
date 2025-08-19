@@ -43,7 +43,7 @@ t_all	*parsing_one(int argc, char **argv)
 	all->time_to_eat = ft_atoi(argv[3], all);
 	all->time_to_sleep = ft_atoi(argv[4], all);
 	if (argc == 5)
-		all->must_eat = 0;
+		all->must_eat = -1;
 	else
 		all->must_eat = ft_atoi(argv[5], all);
 	if (all->error == 1)
@@ -75,4 +75,16 @@ int	args_verif(char **argv)
 		i++;
 	}
 	return (0);
+}
+
+void	no_zero(t_all *all)
+{
+	if (all->must_eat == 0 || all->phil_nbr == 0 || all->time_to_die == 0
+		|| all->time_to_eat == 0 || all->time_to_sleep == 0)
+	{
+		ft_putendl_fd(RED"invalid arguments : arguments cannot "
+				   "be equal to 0."RESET, 2);
+		free(all);
+		exit(EXIT_FAILURE);
+	}
 }
