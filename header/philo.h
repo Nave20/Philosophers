@@ -29,6 +29,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <errno.h>
+# include <sys/time.h>
 
 //-------------------------------STRUCTS-------------------------------
 typedef struct s_phil
@@ -36,7 +37,7 @@ typedef struct s_phil
 
 } t_phil;
 
-typedef struct s_all
+typedef struct s_data
 {
 	int	phil_nbr;
 	int	time_to_die;
@@ -44,22 +45,35 @@ typedef struct s_all
 	int	time_to_sleep;
 	int	must_eat;
 	int	error;
+} t_data;
+
+typedef struct s_all
+{
+	long	start_time;
+	t_data	*data;
 } t_all;
 
 //-------------------------------PARSING-------------------------------
-t_all	*parsing_one(int argc, char **argv);
+t_data	*parsing_one(int argc, char **argv);
 int		args_verif(char **argv);
-void	no_zero(t_all *all);
+void	no_zero(t_data *data);
 
 //--------------------------------ERRORS-------------------------------
 int		inv_args(void);
-int		inv_args_bis(t_all *all, const char *str);
+int		inv_args_bis(t_data *data, const char *str);
 int		inv_args_third(const char *str);
 
 //--------------------------------UTILS--------------------------------
-void	print_all(t_all *all);
+void	print_data(t_data *data);
 size_t	ft_strlen(const char *str);
 void	ft_putendl_fd(const char *s, int fd);
 int		ft_putstr_fd(const char *s, int fd);
+
+//--------------------------------TIME---------------------------------
+long	get_time(void);
+void	print_time(t_all *all);
+
+//--------------------------------FREE---------------------------------
+void	free_all(t_all *all);
 
 #endif

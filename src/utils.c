@@ -45,12 +45,12 @@ int	ft_putstr_fd(const char *s, int fd)
 	return ((int) write(fd, s, ft_strlen(s)));
 }
 
-void	print_all(t_all *all)
+void	print_data(t_data *data)
 {
-	printf(RED"/////\tALL\t/////\n"RESET);
-	printf(GREEN"Phil_nbr ->"BLUE" %d\n"RESET, all->phil_nbr);
-	printf(GREEN"Time_to_die ->"BLUE" %d\n"RESET, all->time_to_die);
-	printf(GREEN"Time_to_eat ->"BLUE" %d\n"RESET, all->time_to_eat);
-	printf(GREEN"Time_to_sleep ->"BLUE" %d\n"RESET, all->time_to_sleep);
-	printf(GREEN"Must_eat ->"BLUE" %d\n"RESET, all->must_eat);
+	printf(RED"/////\tdata\t/////\n"RESET);
+	printf(GREEN"Phil_nbr ->"BLUE" %d\n"RESET, data->phil_nbr);
+	printf(GREEN"Time_to_die ->"BLUE" %d\n"RESET, data->time_to_die);
+	printf(GREEN"Time_to_eat ->"BLUE" %d\n"RESET, data->time_to_eat);
+	printf(GREEN"Time_to_sleep ->"BLUE" %d\n"RESET, data->time_to_sleep);
+	printf(GREEN"Must_eat ->"BLUE" %d\n"RESET, data->must_eat);
 }

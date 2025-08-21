@@ -18,13 +18,13 @@ int	inv_args(void)
 	return (1);
 }
 
-int	inv_args_bis(t_all *all, const char *str)
+int	inv_args_bis(t_data *data, const char *str)
 {
 	ft_putstr_fd(RED"invalid argument : "YELLOW BOLD, 2);
 	ft_putstr_fd(str, 2);
-	ft_putendl_fd(RESET RED", acceptable arguments are"
+	ft_putendl_fd(RESET RED", arguments must be"
 						" in range of INT."RESET, 2);
-	all->error = 1;
+	data->error = 1;
 	return (0);
 }
 

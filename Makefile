@@ -6,6 +6,8 @@ SRC_FILES       =	main.c		\
 					parsing.c	\
 					error.c		\
 					utils.c		\
+					time.c		\
+					free.c		\
 
 SOURCES         = $(addprefix $(SRC_DIR), $(SRC_FILES)) \
 

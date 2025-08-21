@@ -13,7 +13,7 @@
 #include "../header/philo.h"
 #include "limits.h"
 
-int	ft_atoi(const char *str, t_all *all)
+int	ft_atoi(const char *str, t_data *data)
 {
 	int	res;
 	int	digit;
@@ -25,33 +25,33 @@ int	ft_atoi(const char *str, t_all *all)
 	{
 		digit = str[i] - 48;
 		if ((res > (INT_MAX - digit) / 10))
-			return (inv_args_bis(all, str));
+			return (inv_args_bis(data, str));
 		res = res * 10 + (str[i] - 48);
 		i++;
 	}
 	return (res);
 }
 
-t_all	*parsing_one(int argc, char **argv)
+t_data	*parsing_one(int argc, char **argv)
 {
-	t_all	*all;
+	t_data	*data;
 
-	all = malloc(sizeof(t_all));
-	all->error = 0;
-	all->phil_nbr = ft_atoi(argv[1], all);
-	all->time_to_die = ft_atoi(argv[2], all);
-	all->time_to_eat = ft_atoi(argv[3], all);
-	all->time_to_sleep = ft_atoi(argv[4], all);
+	data = malloc(sizeof(t_data));
+	data->error = 0;
+	data->phil_nbr = ft_atoi(argv[1], data);
+	data->time_to_die = ft_atoi(argv[2], data);
+	data->time_to_eat = ft_atoi(argv[3], data);
+	data->time_to_sleep = ft_atoi(argv[4], data);
 	if (argc == 5)
-		all->must_eat = -1;
+		data->must_eat = -1;
 	else
-		all->must_eat = ft_atoi(argv[5], all);
-	if (all->error == 1)
+		data->must_eat = ft_atoi(argv[5], data);
+	if (data->error == 1)
 	{
-		free(all);
+		free(data);
 		return (NULL);
 	}
-	return (all);
+	return (data);
 }
 
 int	args_verif(char **argv)
@@ -77,14 +77,14 @@ int	args_verif(char **argv)
 	return (0);
 }
 
-void	no_zero(t_all *all)
+void	no_zero(t_data *data)
 {
-	if (all->must_eat == 0 || all->phil_nbr == 0 || all->time_to_die == 0
-		|| all->time_to_eat == 0 || all->time_to_sleep == 0)
+	if (data->must_eat == 0 || data->phil_nbr == 0 || data->time_to_die == 0
+		|| data->time_to_eat == 0 || data->time_to_sleep == 0)
 	{
 		ft_putendl_fd(RED"invalid arguments : arguments cannot "
 				   "be equal to 0."RESET, 2);
-		free(all);
+		free(data);
 		exit(EXIT_FAILURE);
 	}
 }
