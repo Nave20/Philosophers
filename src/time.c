@@ -19,12 +19,3 @@ long	get_time(void)
 	gettimeofday(&tv, NULL);
 	return (tv.tv_sec * 1000L) + (tv.tv_usec / 1000L);
 }
-
-void	print_time(t_all *all)
-{
-	long	time;
-
-	sleep(1);
-	time = get_time() - all->start_time;
-	printf("%ld\n", time);
-}

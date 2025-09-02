@@ -2,12 +2,17 @@ SRC_DIR         = src/
 OBJ_DIR         = objs/
 INC_DIR         = header/
 
-SRC_FILES       =	main.c		\
-					parsing.c	\
-					error.c		\
-					utils.c		\
-					time.c		\
-					free.c		\
+SRC_FILES       =	main.c				\
+					parsing.c			\
+					error.c				\
+					utils.c				\
+					init.c				\
+					mutex_handling.c	\
+					time.c				\
+					free.c				\
+					print_mutex.c		\
+					threads.c			\
+					routines.c			\
 
 SOURCES         = $(addprefix $(SRC_DIR), $(SRC_FILES)) \
 

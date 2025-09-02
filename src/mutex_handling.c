@@ -12,7 +12,7 @@
 
 #include "../header/philo.h"
 
-int	get_status(t_data *data)
+int		get_status(t_data *data)
 {
 	int	res;
 

@@ -37,7 +37,7 @@ typedef enum e_status
 {
 	ALIVE,
 	DEAD,
-	FULL,
+	FULL, //???
 } t_status;
 
 typedef enum e_lock
@@ -50,14 +50,16 @@ typedef enum e_lock
 
 typedef struct s_data
 {
+	long				start_time;
 	int					phil_nbr;
 	int					time_to_die;
 	int					time_to_eat;
 	int					time_to_sleep;
 	int					must_eat;
 	int					error;
-	int					schrodinger;
+	t_status			schrodinger;
 	pthread_mutex_t		monitor;
+	pthread_mutex_t		print;
 	pthread_mutex_t		*fork_mutex;
 } t_data;
 
@@ -74,10 +76,8 @@ typedef struct s_phil
 
 typedef struct s_all
 {
-	long				start_time;
 	pthread_mutex_t		end;
 	pthread_mutex_t		monitor;
-	pthread_mutex_t		print;
 	t_phil				**phil;
 	t_data				*data;
 } t_all;
@@ -105,10 +105,10 @@ void	print_time(t_all *all);
 //--------------------------------FREE---------------------------------
 void	free_all(t_all *all);
 void	free_phil(t_all	*all);
-int		free_all_err(t_all *all);
+void	free_data(t_data *data);
 
 //--------------------------------INIT---------------------------------
-t_all	*all_init(t_data *data);
+t_all	*all_init(int argc, char **argv);
 t_phil	*phil_init_bis(t_data *data, int i);
 int		phil_init(t_all *all);
 
@@ -117,6 +117,12 @@ int		handle_mutex(pthread_mutex_t *mutex, t_lock	status);
 int		get_status(t_data *data);
 
 //-------------------------------ROUTINE--------------------------------
-void	phil_routine(void *args);
+void	*phil_routine(void *args);
+
+//-------------------------------THREAD---------------------------------
+int		thread_launch(t_all *all);
+
+//-------------------------------THREAD---------------------------------
+void	print_mutex(const char *str, t_phil phil);
 
 #endif

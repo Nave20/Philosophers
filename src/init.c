@@ -12,12 +12,42 @@
 
 #include "../header/philo.h"
 
-t_all	*all_init(t_data *data)
+int	data_init(t_data *data) //SECURE
+{
+	int	i;
+
+	i = 0;
+	data->start_time = get_time();
+	data->schrodinger = ALIVE;
+	if (pthread_mutex_init(&data->monitor, NULL))
+		return (1);
+	if (pthread_mutex_init(&data->print, NULL))
+		return (1);
+	data->fork_mutex = malloc(data->phil_nbr * sizeof(pthread_mutex_t*));
+	if (!data->fork_mutex)
+		return (1);
+	while (i < data->phil_nbr)
+	{
+		if (pthread_mutex_init(&data->fork_mutex[i], NULL))
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+t_all	*all_init(int argc, char **argv)
 {
 	t_all	*all;
+	t_data	*data;
 
+	data = parsing_one(argc, argv);
+	if (!data)
+		return (NULL);
+	data_init(data);
 	all = malloc(sizeof(t_all));
-	all->start_time = get_time();
+	if (!all)
+		{;}
+	no_zero(data);
 	all->data = data;
 	return (all);
 }
@@ -29,6 +59,11 @@ t_phil	*phil_init_bis(t_data *data, int i)
 	phil = malloc(sizeof(t_phil));
 	if (!phil)
 		return (NULL);
+	if (pthread_mutex_init(&phil->meal_mutex, NULL))
+	{
+		free(phil);
+		return (NULL);
+	}
 	phil->data = data;
 	phil->id = i;
 	phil->meal_eaten = 0;

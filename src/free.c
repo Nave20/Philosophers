@@ -27,18 +27,23 @@ void	free_phil(t_all	*all)
 	i = 0;
 	while (i < all->data->phil_nbr)
 	{
-		pthread_mutex_destroy(all->phil[i]->meal_mutex);
-		free(all->phil[i]->meal_mutex);
+		pthread_mutex_destroy(&all->phil[i]->meal_mutex);
 		free(all->phil[i]);
 		i++;
 	}
 	free(all->phil);
 }
 
-int	free_all_err(t_all *all)
+void	free_data(t_data *data)
 {
-	if (all->data)
-		free(all->data);
-	free(all);
-	return (1);
+	int	i;
+
+	i = 0;
+	pthread_mutex_destroy(&data->monitor);
+	pthread_mutex_destroy(&data->print);
+	while (i < data->phil_nbr)
+	{
+		pthread_mutex_destroy(&data->fork_mutex[i]);
+		i++;
+	}
 }

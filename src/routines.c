@@ -12,7 +12,7 @@
 
 #include "../header/philo.h"
 
-void	phil_routine(void *args)
+void	*phil_routine(void *args)
 {
 	t_phil	*phil;
 
@@ -22,4 +22,6 @@ void	phil_routine(void *args)
 	handle_mutex(&phil->meal_mutex, LOCK);
 	phil->last_meal = get_time();
 	handle_mutex(&phil->meal_mutex, UNLOCK);
+	print_mutex("Hello\n", *phil);
+	return (NULL);
 }
