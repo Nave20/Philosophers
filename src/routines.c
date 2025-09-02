@@ -1,44 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   routines.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vpirotti <vpirotti@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/21 13:39:54 by vpirotti          #+#    #+#             */
-/*   Updated: 2025/08/21 13:39:54 by vpirotti         ###   ########.fr       */
+/*   Created: 2025/09/02 12:41:41 by vpirotti          #+#    #+#             */
+/*   Updated: 2025/09/02 12:41:41 by vpirotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/philo.h"
 
-void	free_all(t_all *all)
+void	phil_routine(void *args)
 {
-	free_phil(all);
-	if (all->data)
-		free(all->data);
-	free(all);
-}
+	t_phil	*phil;
 
-void	free_phil(t_all	*all)
-{
-	int	i;
-
-	i = 0;
-	while (i < all->data->phil_nbr)
-	{
-		pthread_mutex_destroy(all->phil[i]->meal_mutex);
-		free(all->phil[i]->meal_mutex);
-		free(all->phil[i]);
-		i++;
-	}
-	free(all->phil);
-}
-
-int	free_all_err(t_all *all)
-{
-	if (all->data)
-		free(all->data);
-	free(all);
-	return (1);
+	phil = args;
+	if (phil->id % 2)
+		usleep(phil->data->time_to_eat * 100);
+	handle_mutex(&phil->meal_mutex, LOCK);
+	phil->last_meal = get_time();
+	handle_mutex(&phil->meal_mutex, UNLOCK);
 }

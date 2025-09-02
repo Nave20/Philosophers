@@ -29,28 +29,57 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <errno.h>
+# include <pthread.h>
 # include <sys/time.h>
 
-//-------------------------------STRUCTS-------------------------------
-typedef struct s_phil
+//--------------------------------ENUM---------------------------------
+typedef enum e_status
 {
+	ALIVE,
+	DEAD,
+	FULL,
+} t_status;
 
-} t_phil;
+typedef enum e_lock
+{
+	UNLOCK,
+	LOCK,
+} t_lock;
+
+//-------------------------------STRUCTS-------------------------------
 
 typedef struct s_data
 {
-	int	phil_nbr;
-	int	time_to_die;
-	int	time_to_eat;
-	int	time_to_sleep;
-	int	must_eat;
-	int	error;
+	int					phil_nbr;
+	int					time_to_die;
+	int					time_to_eat;
+	int					time_to_sleep;
+	int					must_eat;
+	int					error;
+	int					schrodinger;
+	pthread_mutex_t		monitor;
+	pthread_mutex_t		*fork_mutex;
 } t_data;
+
+typedef struct s_phil
+{
+	pthread_t			thread;
+	pthread_mutex_t		meal_mutex;
+	int					id;
+	int					meal_eaten;
+	long				last_meal;
+	int					forks[2];
+	t_data				*data;
+} t_phil;
 
 typedef struct s_all
 {
-	long	start_time;
-	t_data	*data;
+	long				start_time;
+	pthread_mutex_t		end;
+	pthread_mutex_t		monitor;
+	pthread_mutex_t		print;
+	t_phil				**phil;
+	t_data				*data;
 } t_all;
 
 //-------------------------------PARSING-------------------------------
@@ -75,5 +104,19 @@ void	print_time(t_all *all);
 
 //--------------------------------FREE---------------------------------
 void	free_all(t_all *all);
+void	free_phil(t_all	*all);
+int		free_all_err(t_all *all);
+
+//--------------------------------INIT---------------------------------
+t_all	*all_init(t_data *data);
+t_phil	*phil_init_bis(t_data *data, int i);
+int		phil_init(t_all *all);
+
+//--------------------------------MUTEX--------------------------------
+int		handle_mutex(pthread_mutex_t *mutex, t_lock	status);
+int		get_status(t_data *data);
+
+//-------------------------------ROUTINE--------------------------------
+void	phil_routine(void *args);
 
 #endif

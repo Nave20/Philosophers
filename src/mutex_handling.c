@@ -1,44 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   mutex_handling.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vpirotti <vpirotti@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/21 13:39:54 by vpirotti          #+#    #+#             */
-/*   Updated: 2025/08/21 13:39:54 by vpirotti         ###   ########.fr       */
+/*   Created: 2025/09/02 12:45:32 by vpirotti          #+#    #+#             */
+/*   Updated: 2025/09/02 12:45:32 by vpirotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/philo.h"
 
-void	free_all(t_all *all)
+int	get_status(t_data *data)
 {
-	free_phil(all);
-	if (all->data)
-		free(all->data);
-	free(all);
+	int	res;
+
+	handle_mutex(&data->monitor, LOCK);
+	res = data->schrodinger;
+	handle_mutex(&data->monitor, UNLOCK);
+	return (res);
 }
 
-void	free_phil(t_all	*all)
+int	handle_mutex(pthread_mutex_t *mutex, t_lock	status)
 {
-	int	i;
-
-	i = 0;
-	while (i < all->data->phil_nbr)
+	if (status == LOCK)
 	{
-		pthread_mutex_destroy(all->phil[i]->meal_mutex);
-		free(all->phil[i]->meal_mutex);
-		free(all->phil[i]);
-		i++;
+		if (pthread_mutex_lock(mutex))
+			return (1);
 	}
-	free(all->phil);
-}
-
-int	free_all_err(t_all *all)
-{
-	if (all->data)
-		free(all->data);
-	free(all);
-	return (1);
+	else if (status == UNLOCK)
+	{
+		if (pthread_mutex_unlock(mutex))
+			return (1);
+	}
+	return (0);
 }
