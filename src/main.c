@@ -14,18 +14,18 @@
 
 int	main(int argc, char **argv)
 {
-	t_all	*all;
+	t_data	*data;
 
 	if (argc < 5 || argc > 6)
 		return (inv_args());
 	if (args_verif(&argv[1]) != 0)
 		return (1);
-	all = all_init(argc, argv);
-	if (!all)
+	data = all_init(argc, argv);
+	if (!data)
 		return (1);
-	if (phil_init(all))
+	if (phil_init(data))
 		return (1);
-	thread_launch(all);
-	free_all(all);
+	thread_launch(data);
+	free_all(data);
 	return (0);
 }

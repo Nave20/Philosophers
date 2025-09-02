@@ -12,26 +12,25 @@
 
 #include "../header/philo.h"
 
-void	free_all(t_all *all)
+void	free_all(t_data *data)
 {
-	free_phil(all);
-	if (all->data)
-		free(all->data);
-	free(all);
+	free_phil(data);
+	free_data(data);
+	free(data);
 }
 
-void	free_phil(t_all	*all)
+void	free_phil(t_data *data)
 {
 	int	i;
 
 	i = 0;
-	while (i < all->data->phil_nbr)
+	while (i < data->phil_nbr)
 	{
-		pthread_mutex_destroy(&all->phil[i]->meal_mutex);
-		free(all->phil[i]);
+		pthread_mutex_destroy(&data->phil[i]->meal_mutex);
+		free(data->phil[i]);
 		i++;
 	}
-	free(all->phil);
+	free(data->phil);
 }
 
 void	free_data(t_data *data)
@@ -46,4 +45,5 @@ void	free_data(t_data *data)
 		pthread_mutex_destroy(&data->fork_mutex[i]);
 		i++;
 	}
+	free(data->fork_mutex);
 }

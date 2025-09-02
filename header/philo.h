@@ -48,6 +48,8 @@ typedef enum e_lock
 
 //-------------------------------STRUCTS-------------------------------
 
+typedef struct s_phil	t_phil;
+
 typedef struct s_data
 {
 	long				start_time;
@@ -61,6 +63,7 @@ typedef struct s_data
 	pthread_mutex_t		monitor;
 	pthread_mutex_t		print;
 	pthread_mutex_t		*fork_mutex;
+	t_phil				**phil;
 } t_data;
 
 typedef struct s_phil
@@ -70,22 +73,14 @@ typedef struct s_phil
 	int					id;
 	int					meal_eaten;
 	long				last_meal;
-	int					forks[2];
+	pthread_mutex_t		*forks[2];
 	t_data				*data;
 } t_phil;
-
-typedef struct s_all
-{
-	pthread_mutex_t		end;
-	pthread_mutex_t		monitor;
-	t_phil				**phil;
-	t_data				*data;
-} t_all;
 
 //-------------------------------PARSING-------------------------------
 t_data	*parsing_one(int argc, char **argv);
 int		args_verif(char **argv);
-void	no_zero(t_data *data);
+int		no_zero(t_data *data);
 
 //--------------------------------ERRORS-------------------------------
 int		inv_args(void);
@@ -100,17 +95,16 @@ int		ft_putstr_fd(const char *s, int fd);
 
 //--------------------------------TIME---------------------------------
 long	get_time(void);
-void	print_time(t_all *all);
 
 //--------------------------------FREE---------------------------------
-void	free_all(t_all *all);
-void	free_phil(t_all	*all);
+void	free_phil(t_data *data);
 void	free_data(t_data *data);
+void	free_all(t_data *data);
 
 //--------------------------------INIT---------------------------------
-t_all	*all_init(int argc, char **argv);
+t_data	*all_init(int argc, char **argv);
 t_phil	*phil_init_bis(t_data *data, int i);
-int		phil_init(t_all *all);
+int		phil_init(t_data *data);
 
 //--------------------------------MUTEX--------------------------------
 int		handle_mutex(pthread_mutex_t *mutex, t_lock	status);
@@ -120,7 +114,7 @@ int		get_status(t_data *data);
 void	*phil_routine(void *args);
 
 //-------------------------------THREAD---------------------------------
-int		thread_launch(t_all *all);
+int		thread_launch(t_data *data);
 
 //-------------------------------THREAD---------------------------------
 void	print_mutex(const char *str, t_phil phil);

@@ -12,22 +12,23 @@
 
 #include "../header/philo.h"
 
-int	thread_launch(t_all *all)
+int	thread_launch(t_data *data)
 {
 	int	i;
 
 	i = 0;
-	while (i < all->data->phil_nbr)
+	data->start_time = get_time();
+	while (i < data->phil_nbr)
 	{
-		if (pthread_create(&all->phil[i]->thread, NULL, phil_routine,
-			all->phil[i]))
+		if (pthread_create(&data->phil[i]->thread, NULL, phil_routine,
+			data->phil[i]))
 			return (1);
 		i++;
 	}
 	i = 0;
-	while (i < all->data->phil_nbr)
+	while (i < data->phil_nbr)
 	{
-		if (pthread_join(all->phil[i]->thread, NULL))
+		if (pthread_join(data->phil[i]->thread, NULL))
 			return (1);
 		i++;
 	}

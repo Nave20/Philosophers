@@ -77,14 +77,14 @@ int	args_verif(char **argv)
 	return (0);
 }
 
-void	no_zero(t_data *data)
+int	no_zero(t_data *data)
 {
 	if (data->must_eat == 0 || data->phil_nbr == 0 || data->time_to_die == 0
 		|| data->time_to_eat == 0 || data->time_to_sleep == 0)
 	{
 		ft_putendl_fd(RED"invalid arguments : arguments cannot "
 				   "be equal to 0."RESET, 2);
-		free(data);
-		exit(EXIT_FAILURE);
+		return (1);
 	}
+	return (0);
 }

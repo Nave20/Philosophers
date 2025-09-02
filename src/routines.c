@@ -12,6 +12,24 @@
 
 #include "../header/philo.h"
 
+// void	phil_eat(t_phil *phil)
+// {
+// 	if ()
+// }
+
+static void	phil_rout_bis(t_phil *phil)
+{
+	while (get_status(phil->data) == ALIVE)
+	{
+		handle_mutex(&phil->meal_mutex, LOCK);
+		if (phil->data->must_eat > 0 && phil->meal_eaten >= phil->data->must_eat)
+		{
+			handle_mutex(&phil->meal_mutex, UNLOCK);
+			break ;
+		}
+	}
+}
+
 void	*phil_routine(void *args)
 {
 	t_phil	*phil;
@@ -22,6 +40,7 @@ void	*phil_routine(void *args)
 	handle_mutex(&phil->meal_mutex, LOCK);
 	phil->last_meal = get_time();
 	handle_mutex(&phil->meal_mutex, UNLOCK);
-	print_mutex("Hello\n", *phil);
+	print_mutex("test\n", *phil);
+	phil_rout_bis(phil);
 	return (NULL);
 }

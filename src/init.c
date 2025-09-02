@@ -17,13 +17,12 @@ int	data_init(t_data *data) //SECURE
 	int	i;
 
 	i = 0;
-	data->start_time = get_time();
 	data->schrodinger = ALIVE;
 	if (pthread_mutex_init(&data->monitor, NULL))
 		return (1);
 	if (pthread_mutex_init(&data->print, NULL))
 		return (1);
-	data->fork_mutex = malloc(data->phil_nbr * sizeof(pthread_mutex_t*));
+	data->fork_mutex = malloc(data->phil_nbr * sizeof(pthread_mutex_t));
 	if (!data->fork_mutex)
 		return (1);
 	while (i < data->phil_nbr)
@@ -35,21 +34,43 @@ int	data_init(t_data *data) //SECURE
 	return (0);
 }
 
-t_all	*all_init(int argc, char **argv)
+void	fork_init(t_data *data)
 {
-	t_all	*all;
+	int	i;
+
+	i = 0;
+	while (i < data->phil_nbr)
+	{
+		if (i == 0)
+		{
+			data->phil[i]->forks[0] = &data->fork_mutex[i];
+			data->phil[i]->forks[1] = &data->fork_mutex[data->phil_nbr - 1];
+		}
+		else if (i == data->phil_nbr - 1)
+		{
+			data->phil[i]->forks[0] = &data->fork_mutex[0];
+			data->phil[i]->forks[1] = &data->fork_mutex[i];
+		}
+		else
+		{
+			data->phil[i]->forks[0] = &data->fork_mutex[i];
+			data->phil[i]->forks[1] = &data->fork_mutex[i - 1];
+		}
+		i++;
+	}
+}
+
+t_data	*all_init(int argc, char **argv)
+{
 	t_data	*data;
 
 	data = parsing_one(argc, argv);
 	if (!data)
 		return (NULL);
-	data_init(data);
-	all = malloc(sizeof(t_all));
-	if (!all)
-		{;}
 	no_zero(data);
-	all->data = data;
-	return (all);
+	data_init(data);
+	fork_init(data);
+	return (data);
 }
 
 t_phil	*phil_init_bis(t_data *data, int i)
@@ -67,33 +88,31 @@ t_phil	*phil_init_bis(t_data *data, int i)
 	phil->data = data;
 	phil->id = i;
 	phil->meal_eaten = 0;
-	phil->forks[0] = 1;
-	phil->forks[1] = 0;
 	return (phil);
 }
 
-int	phil_init(t_all *all)
+int	phil_init(t_data *data)
 {
 	int		i;
 	t_phil	**phil;
 
 	i = 0;
-	phil = malloc((all->data->phil_nbr + 1) * sizeof(t_phil**));
-	all->phil = phil;
-	if (!all->phil)
+	phil = malloc((data->phil_nbr + 1) * sizeof(t_phil**));
+	data->phil = phil;
+	if (!data->phil)
 		return (1);
-	while (i < all->data->phil_nbr)
+	while (i < data->phil_nbr)
 	{
-		all->phil[i] = NULL;
+		data->phil[i] = NULL;
 		i++;
 	}
 	i = 0;
-	while (i < all->data->phil_nbr)
+	while (i < data->phil_nbr)
 	{
-		all->phil[i] = phil_init_bis(all->data, i);
-		if (!all->phil[i])
+		data->phil[i] = phil_init_bis(data, i);
+		if (!data->phil[i])
 		{
-			free_phil(all);
+			free_phil(data);
 			return (1);
 		}
 		i++;
