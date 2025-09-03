@@ -12,7 +12,7 @@
 
 #include "../header/philo.h"
 
-int	data_init(t_data *data) //SECURE
+int	data_init(t_data *data)
 {
 	int	i;
 
@@ -21,14 +21,21 @@ int	data_init(t_data *data) //SECURE
 	if (pthread_mutex_init(&data->monitor, NULL))
 		return (1);
 	if (pthread_mutex_init(&data->print, NULL))
+	{
+		pthread_mutex_destroy(&data->monitor);
 		return (1);
+	}
 	data->fork_mutex = malloc(data->phil_nbr * sizeof(pthread_mutex_t));
 	if (!data->fork_mutex)
+	{
+		pthread_mutex_destroy(&data->print);
+		pthread_mutex_destroy(&data->monitor);
 		return (1);
+	}
 	while (i < data->phil_nbr)
 	{
 		if (pthread_mutex_init(&data->fork_mutex[i], NULL))
-			return (1);
+			return (exit_init(data, i));
 		i++;
 	}
 	return (0);
@@ -63,7 +70,11 @@ t_data	*all_init(int argc, char **argv)
 	if (!data)
 		return (NULL);
 	no_zero(data);
-	data_init(data);
+	if (data_init(data))
+	{
+		free_data(data);
+		return (NULL);
+	}
 	return (data);
 }
 

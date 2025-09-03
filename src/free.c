@@ -47,3 +47,18 @@ void	free_data(t_data *data)
 	}
 	free(data->fork_mutex);
 }
+
+int	exit_init(t_data *data, int max)
+{
+	int	i;
+
+	i = 0;
+	pthread_mutex_destroy(&data->print);
+	pthread_mutex_destroy(&data->monitor);
+	while (i < max)
+	{
+		pthread_mutex_destroy(&data->fork_mutex[i]);
+		i++;
+	}
+	return (1);
+}

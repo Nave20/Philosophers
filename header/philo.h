@@ -106,6 +106,7 @@ long	get_time(void);
 void	free_phil(t_data *data);
 void	free_data(t_data *data);
 void	free_all(t_data *data);
+int		exit_init(t_data *data, int max);
 
 //--------------------------------INIT---------------------------------
 t_data	*all_init(int argc, char **argv);
