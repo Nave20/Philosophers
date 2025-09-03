@@ -79,6 +79,7 @@ t_phil	*phil_init_bis(t_data *data, int i)
 		free(phil);
 		return (NULL);
 	}
+	phil->last_meal = 0;
 	phil->data = data;
 	phil->id = i;
 	phil->meal_eaten = 0;

@@ -52,6 +52,7 @@ void	*monitor_rout(void *arg)
 
 	data = arg;
 	phil_nbr_full = 0;
+	usleep(1000);
 	while (get_status(data) == ALIVE)
 	{
 		i = 0;
@@ -64,6 +65,7 @@ void	*monitor_rout(void *arg)
 			phil_nbr_full += phil_full(data, i);
 			i++;
 		}
+		usleep(500);
 	}
 	return (NULL);
 }

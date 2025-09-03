@@ -35,7 +35,7 @@ int	thread_launch(t_data *data)
 			return (1);
 		i++;
 	}
-	// if (pthread_join(big_brother, NULL))
-	// 	return (1);
+	if (pthread_join(big_brother, NULL))
+		return (1);
 	return (0);
 }
