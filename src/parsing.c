@@ -83,7 +83,7 @@ int	no_zero(t_data *data)
 		|| data->time_to_eat == 0 || data->time_to_sleep == 0)
 	{
 		ft_putendl_fd(RED"invalid arguments : arguments cannot "
-				   "be equal to 0."RESET, 2);
+			"be equal to 0."RESET, 2);
 		return (1);
 	}
 	return (0);

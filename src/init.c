@@ -103,7 +103,7 @@ int	phil_init(t_data *data)
 	t_phil	**phil;
 
 	i = 0;
-	phil = malloc((data->phil_nbr + 1) * sizeof(t_phil**));
+	phil = malloc((data->phil_nbr + 1) * sizeof(t_phil **));
 	data->phil = phil;
 	if (!data->phil)
 		return (1);

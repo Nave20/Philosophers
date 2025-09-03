@@ -23,7 +23,7 @@ int	inv_args_bis(t_data *data, const char *str)
 	ft_putstr_fd(RED"invalid argument : "YELLOW BOLD, 2);
 	ft_putstr_fd(str, 2);
 	ft_putendl_fd(RESET RED", arguments must be"
-						" in range of INT."RESET, 2);
+		" in range of INT."RESET, 2);
 	data->error = 1;
 	return (0);
 }
@@ -33,6 +33,6 @@ int	inv_args_third(const char *str)
 	ft_putstr_fd(RED"invalid argument : "YELLOW BOLD, 2);
 	ft_putstr_fd(str, 2);
 	ft_putendl_fd(RESET RED", arguments must "
-						"only be positive numbers."RESET, 2);
+		"only be positive numbers."RESET, 2);
 	return (0);
 }

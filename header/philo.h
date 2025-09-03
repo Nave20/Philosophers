@@ -42,14 +42,13 @@ typedef enum e_status
 {
 	ALIVE,
 	DEAD,
-	FULL, //???
-} t_status;
+}	t_status;
 
 typedef enum e_lock
 {
 	UNLOCK,
 	LOCK,
-} t_lock;
+}	t_lock;
 
 //-------------------------------STRUCTS-------------------------------
 
@@ -69,7 +68,7 @@ typedef struct s_data
 	pthread_mutex_t		print;
 	pthread_mutex_t		*fork_mutex;
 	t_phil				**phil;
-} t_data;
+}	t_data;
 
 typedef struct s_phil
 {
@@ -80,7 +79,7 @@ typedef struct s_phil
 	long				last_meal;
 	pthread_mutex_t		*forks[2];
 	t_data				*data;
-} t_phil;
+}	t_phil;
 
 //-------------------------------PARSING-------------------------------
 t_data	*parsing_one(int argc, char **argv);

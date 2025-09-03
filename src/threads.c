@@ -24,7 +24,7 @@ int	thread_launch(t_data *data)
 	while (i < data->phil_nbr)
 	{
 		if (pthread_create(&data->phil[i]->thread, NULL, phil_routine,
-			data->phil[i]))
+				data->phil[i]))
 			return (1);
 		i++;
 	}

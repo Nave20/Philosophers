@@ -53,7 +53,8 @@ static void	phil_rout_bis(t_phil *phil)
 	while (get_status(phil->data) == ALIVE)
 	{
 		handle_mutex(&phil->meal_mutex, LOCK);
-		if (phil->data->must_eat > 0 && phil->meal_eaten >= phil->data->must_eat)
+		if (phil->data->must_eat > 0
+			&& phil->meal_eaten >= phil->data->must_eat)
 		{
 			handle_mutex(&phil->meal_mutex, UNLOCK);
 			break ;
@@ -77,6 +78,17 @@ void	*phil_routine(void *args)
 	t_phil	*phil;
 
 	phil = args;
+	if (phil->data->phil_nbr == 1)
+	{
+		handle_mutex(phil->forks[0], LOCK);
+		print_mutex(FORK, *phil);
+		ft_sleep(phil->data->time_to_die);
+		print_mutex(DIED, *phil);
+		handle_mutex(&phil->data->monitor, LOCK);
+		phil->data->schrodinger = DEAD;
+		handle_mutex(&phil->data->monitor, UNLOCK);
+		return (NULL);
+	}
 	if (phil->id % 2)
 		usleep(phil->data->time_to_eat * 100);
 	handle_mutex(&phil->meal_mutex, LOCK);
