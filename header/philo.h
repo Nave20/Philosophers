@@ -24,7 +24,7 @@
 # define FORK "\033[33m has taken a fork\033[0m\n"
 # define EAT "\033[0;32m is eating\033[0m\n"
 # define SLEEP "\033[34m is sleeping\033[0m\n"
-# define THINK "\033[36m is thinking\033[0m\n"
+# define THINK "\033[38;5;205m is thinking\033[0m\n"
 # define DIED "\033[31m\033[1m died\033[0m\n"
 
 //-------------------------------INCLUDE-------------------------------

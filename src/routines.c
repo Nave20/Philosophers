@@ -19,7 +19,7 @@ void	update_phil(t_phil *phil)
 	time = get_time();
 	handle_mutex(&phil->meal_mutex, LOCK);
 	phil->meal_eaten++;
-	phil->last_meal = time;
+	phil->last_meal = time - phil->data->start_time;
 	handle_mutex(&phil->meal_mutex, UNLOCK);
 }
 
