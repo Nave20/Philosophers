@@ -21,6 +21,11 @@
 # define RED "\033[31m"
 # define BOLD "\033[1m"
 # define GREEN "\033[0;32m"
+# define FORK "\033[33m has taken a fork\033[0m\n"
+# define EAT "\033[0;32m is eating\033[0m\n"
+# define SLEEP "\033[34m is sleeping\033[0m\n"
+# define THINK "\033[36m is thinking\033[0m\n"
+# define DIED "\033[31m\033[1m died\033[0m\n"
 
 //-------------------------------INCLUDE-------------------------------
 # include <stdio.h>
@@ -89,6 +94,7 @@ int		inv_args_third(const char *str);
 
 //--------------------------------UTILS--------------------------------
 void	print_data(t_data *data);
+void	ft_sleep(int time);
 size_t	ft_strlen(const char *str);
 void	ft_putendl_fd(const char *s, int fd);
 int		ft_putstr_fd(const char *s, int fd);
@@ -105,6 +111,7 @@ void	free_all(t_data *data);
 t_data	*all_init(int argc, char **argv);
 t_phil	*phil_init_bis(t_data *data, int i);
 int		phil_init(t_data *data);
+void	fork_init(t_data *data);
 
 //--------------------------------MUTEX--------------------------------
 int		handle_mutex(pthread_mutex_t *mutex, t_lock	status);
@@ -118,5 +125,8 @@ int		thread_launch(t_data *data);
 
 //-------------------------------THREAD---------------------------------
 void	print_mutex(const char *str, t_phil phil);
+
+//-------------------------------THREAD---------------------------------
+void	*monitor_rout(void *arg);
 
 #endif

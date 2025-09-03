@@ -12,6 +12,26 @@
 
 #include "../header/philo.h"
 
+void	ft_sleep(int time)
+{
+	unsigned long	start_time;
+	unsigned long	current_time;
+	unsigned long	elapsed;
+
+	start_time = get_time();
+	while (1)
+	{
+		current_time = get_time();
+		elapsed = current_time - start_time;
+		if (elapsed >= (unsigned long)time)
+			break ;
+		if (time - elapsed > 10)
+			usleep(1000);
+		else
+			usleep(100);
+	}
+}
+
 size_t	ft_strlen(const char *str)
 {
 	size_t	i;

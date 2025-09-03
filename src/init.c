@@ -46,11 +46,6 @@ void	fork_init(t_data *data)
 			data->phil[i]->forks[0] = &data->fork_mutex[i];
 			data->phil[i]->forks[1] = &data->fork_mutex[data->phil_nbr - 1];
 		}
-		else if (i == data->phil_nbr - 1)
-		{
-			data->phil[i]->forks[0] = &data->fork_mutex[0];
-			data->phil[i]->forks[1] = &data->fork_mutex[i];
-		}
 		else
 		{
 			data->phil[i]->forks[0] = &data->fork_mutex[i];
@@ -69,7 +64,6 @@ t_data	*all_init(int argc, char **argv)
 		return (NULL);
 	no_zero(data);
 	data_init(data);
-	fork_init(data);
 	return (data);
 }
 

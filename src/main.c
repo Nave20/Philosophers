@@ -25,6 +25,7 @@ int	main(int argc, char **argv)
 		return (1);
 	if (phil_init(data))
 		return (1);
+	fork_init(data);
 	thread_launch(data);
 	free_all(data);
 	return (0);

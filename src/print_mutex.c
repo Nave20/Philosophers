@@ -25,7 +25,7 @@ void	print_mutex(const char *str, t_phil phil)
 		if (status == ALIVE)
 		{
 			time = get_time() - phil.data->start_time;
-			printf("%ld %d %s", time, phil.id, str);
+			printf("\033[37m%ld "RESET"%d%s", time, phil.id, str);
 		}
 		handle_mutex(&phil.data->print, UNLOCK);
 	}

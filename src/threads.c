@@ -14,8 +14,11 @@
 
 int	thread_launch(t_data *data)
 {
-	int	i;
+	int			i;
+	pthread_t	big_brother;
 
+	if (pthread_create(&big_brother, NULL, monitor_rout, data))
+		return (1);
 	i = 0;
 	data->start_time = get_time();
 	while (i < data->phil_nbr)
@@ -32,5 +35,7 @@ int	thread_launch(t_data *data)
 			return (1);
 		i++;
 	}
+	// if (pthread_join(big_brother, NULL))
+	// 	return (1);
 	return (0);
 }

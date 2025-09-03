@@ -13,6 +13,7 @@ SRC_FILES       =	main.c				\
 					print_mutex.c		\
 					threads.c			\
 					routines.c			\
+					monitor.c			\
 
 SOURCES         = $(addprefix $(SRC_DIR), $(SRC_FILES)) \
 
