@@ -106,7 +106,7 @@ int	phil_init(t_data *data)
 	phil = malloc((data->phil_nbr + 1) * sizeof(t_phil **));
 	data->phil = phil;
 	if (!data->phil)
-		return (1);
+		return (exit_phil(data));
 	while (i < data->phil_nbr)
 	{
 		data->phil[i] = NULL;
@@ -118,7 +118,7 @@ int	phil_init(t_data *data)
 		data->phil[i] = phil_init_bis(data, i);
 		if (!data->phil[i])
 		{
-			free_phil(data);
+			free_all(data);
 			return (1);
 		}
 		i++;

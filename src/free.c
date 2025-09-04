@@ -24,7 +24,7 @@ void	free_phil(t_data *data)
 	int	i;
 
 	i = 0;
-	while (i < data->phil_nbr)
+	while (i < data->phil_nbr && data->phil[i])
 	{
 		pthread_mutex_destroy(&data->phil[i]->meal_mutex);
 		free(data->phil[i]);
@@ -60,5 +60,12 @@ int	exit_init(t_data *data, int max)
 		pthread_mutex_destroy(&data->fork_mutex[i]);
 		i++;
 	}
+	return (1);
+}
+
+int	exit_phil(t_data *data)
+{
+	free_data(data);
+	free(data);
 	return (1);
 }
