@@ -22,7 +22,7 @@ OBJS            = $(addprefix $(OBJ_DIR), $(SRC_FILES:.c=.o)) \
 HEADER          = $(INC_DIR)philo.h
 NAME            = philo
 
-CC              = gcc
+CC              = cc
 FLAGS           = -Wall -Wextra -Werror -g3 -fPIE -I$(INC_DIR)
 
 all: $(OBJ_DIR) $(NAME)
