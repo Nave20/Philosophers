@@ -16,8 +16,8 @@ int	inv_args(void)
 {
 	ft_putendl_fd(RED"invalid number of arguments."RESET, 2);
 	printf(RED"Usage : ./philo [number_of_philosophers] "
-			"[time_to_die] [time_to_eat] [time_to_sleep]"
-			" [# number_of_times_each_philosopher_must_eat]\n"RESET);
+		"[time_to_die] [time_to_eat] [time_to_sleep]"
+		" [# number_of_times_each_philosopher_must_eat]\n"RESET);
 	return (1);
 }
 
