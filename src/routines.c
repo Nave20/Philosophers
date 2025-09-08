@@ -73,25 +73,22 @@ static void	phil_rout_bis(t_phil *phil)
 	}
 }
 
-void	*solo_phil(t_phil *phil)
-{
-	handle_mutex(phil->forks[0], LOCK);
-	print_mutex(FORK, *phil);
-	ft_sleep(phil->data->time_to_die);
-	print_mutex(DIED, *phil);
-	handle_mutex(&phil->data->monitor, LOCK);
-	phil->data->schrodinger = DEAD;
-	handle_mutex(&phil->data->monitor, UNLOCK);
-	return (NULL);
-}
-
 void	*phil_routine(void *args)
 {
 	t_phil	*phil;
 
 	phil = args;
 	if (phil->data->phil_nbr == 1)
-		return (solo_phil(phil));
+	{
+		handle_mutex(phil->forks[0], LOCK);
+		print_mutex(FORK, *phil);
+		ft_sleep(phil->data->time_to_die);
+		print_mutex(DIED, *phil);
+		handle_mutex(&phil->data->monitor, LOCK);
+		phil->data->schrodinger = DEAD;
+		handle_mutex(&phil->data->monitor, UNLOCK);
+		return (NULL);
+	}
 	if (phil->id == phil->data->phil_nbr - 1)
 		print_mutex(THINK, *phil);
 	if (phil->id % 2)

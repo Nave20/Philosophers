@@ -37,7 +37,10 @@ int	phil_full(t_data *data, const int i)
 	if (data->must_eat <= data->phil[i]->meal_eaten)
 	{
 		handle_mutex(&data->phil[i]->meal_mutex, UNLOCK);
-		return (1);
+		if (data->must_eat > 0)
+			return (1);
+		else
+			return (0);
 	}
 	handle_mutex(&data->phil[i]->meal_mutex, UNLOCK);
 	return (0);
