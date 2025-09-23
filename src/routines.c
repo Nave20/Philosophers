@@ -90,6 +90,9 @@ void	*phil_routine(void *args)
 	t_phil	*phil;
 
 	phil = args;
+	handle_mutex(&phil->meal_mutex, LOCK);
+	phil->last_meal = get_time() - phil->data->start_time;
+	handle_mutex(&phil->meal_mutex, UNLOCK);
 	if (phil->data->phil_nbr == 1)
 		return (phil_alone(phil));
 	if (phil->id == phil->data->phil_nbr - 1)
@@ -99,9 +102,6 @@ void	*phil_routine(void *args)
 		print_mutex(THINK, *phil);
 		usleep(phil->data->time_to_eat * 100);
 	}
-	handle_mutex(&phil->meal_mutex, LOCK);
-	phil->last_meal = get_time() - phil->data->start_time;
-	handle_mutex(&phil->meal_mutex, UNLOCK);
 	phil_rout_bis(phil);
 	return (NULL);
 }
