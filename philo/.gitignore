@@ -2,12 +2,12 @@ a.out
 CMakeLists.txt
 cmake-build-debug
 *.o
-.idea
+../.idea
 libftTester
 *.a
 visualizer
 imgui.ini
-OBJS
+objs
 push_swap_tester
 push_swap
 pipex
