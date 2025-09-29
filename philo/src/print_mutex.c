@@ -27,3 +27,15 @@ void	print_mutex(const char *str, t_phil phil)
 	}
 	handle_mutex(&phil.data->print, UNLOCK);
 }
+
+void	print_mutex_die(const char *str, t_phil phil)
+{
+	long	time;
+
+	if (phil.data->schrodinger == ALIVE)
+	{
+		time = get_time() - phil.data->start_time;
+		printf("\033[37m%ld "RESET BOLD"%d"RESET "%s",
+			time, phil.id, str);
+	}
+}

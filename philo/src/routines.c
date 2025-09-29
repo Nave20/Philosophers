@@ -59,6 +59,7 @@ int	case_two(t_phil *phil)
 	handle_mutex(phil->forks[1], UNLOCK);
 	handle_mutex(phil->forks[0], UNLOCK);
 	update_phil(phil);
+	return (1);
 }
 
 int	phil_eat(t_phil *phil)

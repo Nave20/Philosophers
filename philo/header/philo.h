@@ -127,6 +127,7 @@ int		thread_launch(t_data *data);
 
 //-------------------------------THREAD---------------------------------
 void	print_mutex(const char *str, t_phil phil);
+void	print_mutex_die(const char *str, t_phil phil);
 
 //-------------------------------THREAD---------------------------------
 void	*monitor_rout(void *arg);

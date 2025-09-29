@@ -33,7 +33,7 @@ int	phil_died(t_data *data, const int i)
 	time = get_time() - data->start_time;
 	if (time - data->phil[i]->last_meal >= data->time_to_die)
 	{
-		print_mutex(DIED, *data->phil[i]);
+		print_mutex_die(DIED, *data->phil[i]);
 		data->schrodinger = DEAD;
 		handle_mutex(&data->monitor, UNLOCK);
 		return (1);
