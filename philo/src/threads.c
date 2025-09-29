@@ -12,6 +12,13 @@
 
 #include "../header/philo.h"
 
+void	time_set(t_data *data)
+{
+	handle_mutex(&data->monitor, LOCK);
+	data->start_time = get_time();
+	handle_mutex(&data->monitor, UNLOCK);
+}
+
 int	thread_launch(t_data *data)
 {
 	int			i;
@@ -20,7 +27,7 @@ int	thread_launch(t_data *data)
 	if (pthread_create(&big_brother, NULL, monitor_rout, data))
 		return (1);
 	i = 0;
-	data->start_time = get_time();
+	time_set(data);
 	while (i < data->phil_nbr)
 	{
 		if (pthread_create(&data->phil[i]->thread, NULL, phil_routine,

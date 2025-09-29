@@ -24,7 +24,10 @@ int	main(int argc, char **argv)
 	if (!data)
 		return (1);
 	if (phil_init(data))
+	{
+		free(data);
 		return (1);
+	}
 	fork_init(data);
 	thread_launch(data);
 	free_all(data);

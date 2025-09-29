@@ -12,27 +12,16 @@
 
 #include "../header/philo.h"
 
-void	update_phil(t_phil *phil)
+int	case_one(t_phil *phil)
 {
-	long	time;
-
-	time = get_time();
-	handle_mutex(&phil->meal_mutex, LOCK);
-	phil->meal_eaten++;
-	phil->last_meal = time - phil->data->start_time;
-	handle_mutex(&phil->meal_mutex, UNLOCK);
-}
-
-int	phil_eat(t_phil *phil)
-{
-	handle_mutex(phil->forks[0], LOCK);
+	handle_mutex(phil->forks[1], LOCK);
 	if (get_status(phil->data) != ALIVE)
 	{
-		handle_mutex(phil->forks[0], UNLOCK);
+		handle_mutex(phil->forks[1], UNLOCK);
 		return (1);
 	}
 	print_mutex(FORK, *phil);
-	handle_mutex(phil->forks[1], LOCK);
+	handle_mutex(phil->forks[0], LOCK);
 	if (get_status(phil->data) != ALIVE)
 	{
 		handle_mutex(phil->forks[0], UNLOCK);
@@ -46,6 +35,38 @@ int	phil_eat(t_phil *phil)
 	handle_mutex(phil->forks[1], UNLOCK);
 	update_phil(phil);
 	return (1);
+}
+
+int	case_two(t_phil *phil)
+{
+	handle_mutex(phil->forks[0], LOCK);
+	if (get_status(phil->data) != ALIVE)
+	{
+		handle_mutex(phil->forks[0], UNLOCK);
+		return (1);
+	}
+	print_mutex(FORK, *phil);
+	handle_mutex(phil->forks[1], LOCK);
+	if (get_status(phil->data) != ALIVE)
+	{
+		handle_mutex(phil->forks[1], UNLOCK);
+		handle_mutex(phil->forks[0], UNLOCK);
+		return (1);
+	}
+	print_mutex(FORK, *phil);
+	print_mutex(EAT, *phil);
+	ft_sleep(phil->data->time_to_eat);
+	handle_mutex(phil->forks[1], UNLOCK);
+	handle_mutex(phil->forks[0], UNLOCK);
+	update_phil(phil);
+}
+
+int	phil_eat(t_phil *phil)
+{
+	if (phil->forks[0] > phil->forks[1])
+		return (case_one(phil));
+	else
+		return (case_two(phil));
 }
 
 static void	phil_rout_bis(t_phil *phil)
@@ -73,26 +94,14 @@ static void	phil_rout_bis(t_phil *phil)
 	}
 }
 
-void	*phil_alone(t_phil *phil)
-{
-	handle_mutex(phil->forks[0], LOCK);
-	print_mutex(FORK, *phil);
-	ft_sleep(phil->data->time_to_die);
-	print_mutex(DIED, *phil);
-	handle_mutex(&phil->data->monitor, LOCK);
-	phil->data->schrodinger = DEAD;
-	handle_mutex(&phil->data->monitor, UNLOCK);
-	return (NULL);
-}
-
 void	*phil_routine(void *args)
 {
 	t_phil	*phil;
 
 	phil = args;
-	handle_mutex(&phil->meal_mutex, LOCK);
+	handle_mutex(&phil->data->monitor, LOCK);
 	phil->last_meal = get_time() - phil->data->start_time;
-	handle_mutex(&phil->meal_mutex, UNLOCK);
+	handle_mutex(&phil->data->monitor, UNLOCK);
 	if (phil->data->phil_nbr == 1)
 		return (phil_alone(phil));
 	if (phil->id == phil->data->phil_nbr - 1)

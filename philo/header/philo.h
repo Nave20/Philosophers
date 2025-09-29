@@ -120,6 +120,7 @@ int		get_status(t_data *data);
 
 //-------------------------------ROUTINE--------------------------------
 void	*phil_routine(void *args);
+void	update_phil(t_phil *phil);
 
 //-------------------------------THREAD---------------------------------
 int		thread_launch(t_data *data);
@@ -129,5 +130,8 @@ void	print_mutex(const char *str, t_phil phil);
 
 //-------------------------------THREAD---------------------------------
 void	*monitor_rout(void *arg);
+
+//--------------------------------ALONE---------------------------------
+void	*phil_alone(t_phil *phil);
 
 #endif

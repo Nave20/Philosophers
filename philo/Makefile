@@ -14,6 +14,7 @@ SRC_FILES       =	main.c				\
 					threads.c			\
 					routines.c			\
 					monitor.c			\
+					phil_alone.c		\
 
 SOURCES         = $(addprefix $(SRC_DIR), $(SRC_FILES)) \
 
@@ -23,7 +24,7 @@ HEADER          = $(INC_DIR)philo.h
 NAME            = philo
 
 CC              = cc
-FLAGS           = -Wall -Wextra -Werror -g3 -fPIE -I$(INC_DIR)
+FLAGS           = -Wall -Wextra -Werror -g3 -I$(INC_DIR)
 
 all: $(OBJ_DIR) $(NAME)
 
@@ -35,9 +36,7 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c $(HEADER)
 	$(CC) $(FLAGS) -c $< -o $@
 
 $(NAME): $(OBJS) $(LIB) $(HEADER) Makefile
-	$(CC) $(FLAGS) -o $@ $(OBJS) -lreadline
-
-FORCE:
+	$(CC) $(FLAGS) -o $@ $(OBJS)
 
 clean:
 	rm -rf $(OBJ_DIR)
@@ -47,4 +46,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re FORCE
+.PHONY: all clean fclean re

@@ -1,29 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_mutex.c                                      :+:      :+:    :+:   */
+/*   phil_alone.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vpirotti <vpirotti@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/02 13:19:25 by vpirotti          #+#    #+#             */
-/*   Updated: 2025/09/02 13:19:25 by vpirotti         ###   ########.fr       */
+/*   Created: 2025/09/29 15:03:41 by vpirotti          #+#    #+#             */
+/*   Updated: 2025/09/29 15:03:53 by vpirotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/philo.h"
 
-void	print_mutex(const char *str, t_phil phil)
+void	*phil_alone(t_phil *phil)
 {
-	long	time;
-
-	handle_mutex(&phil.data->print, LOCK);
-	if (get_status(phil.data) == ALIVE)
-	{
-		handle_mutex(&phil.data->monitor, LOCK);
-		time = get_time() - phil.data->start_time;
-		handle_mutex(&phil.data->monitor, UNLOCK);
-		printf("\033[37m%ld "RESET BOLD"%d"RESET "%s",
-			time, phil.id, str);
-	}
-	handle_mutex(&phil.data->print, UNLOCK);
+	handle_mutex(phil->forks[0], LOCK);
+	print_mutex(FORK, *phil);
+	ft_sleep(phil->data->time_to_die);
+	print_mutex(DIED, *phil);
+	handle_mutex(&phil->data->monitor, LOCK);
+	phil->data->schrodinger = DEAD;
+	handle_mutex(&phil->data->monitor, UNLOCK);
+	return (NULL);
 }
