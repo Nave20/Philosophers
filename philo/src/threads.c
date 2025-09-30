@@ -16,7 +16,35 @@ void	time_set(t_data *data)
 {
 	handle_mutex(&data->monitor, LOCK);
 	data->start_time = get_time();
+	data->valid_simulation = 0;
+	data->start = 0;
 	handle_mutex(&data->monitor, UNLOCK);
+}
+
+int	get_start(t_data *data)
+{
+	handle_mutex(&data->monitor, LOCK);
+	if (data->start)
+	{
+		handle_mutex(&data->monitor, UNLOCK);
+		return (1);
+	}
+	handle_mutex(&data->monitor, UNLOCK);
+	return (0);
+}
+
+int thread_error(t_data *data, int i, pthread_t big_b)
+{
+	handle_mutex(&data->monitor, LOCK);
+	data->start = 1;
+	handle_mutex(&data->monitor, UNLOCK);
+	while (i >= 0)
+	{
+		pthread_join(data->phil[i]->thread, NULL);
+		i--;
+	}
+	pthread_join(big_b, NULL);
+	return (1);
 }
 
 int	thread_launch(t_data *data)
@@ -24,25 +52,37 @@ int	thread_launch(t_data *data)
 	int			i;
 	pthread_t	big_brother;
 
+	time_set(data);
 	if (pthread_create(&big_brother, NULL, monitor_rout, data))
 		return (1);
 	i = 0;
-	time_set(data);
 	while (i < data->phil_nbr)
 	{
 		if (pthread_create(&data->phil[i]->thread, NULL, phil_routine,
-				data->phil[i]))
-			return (1);
+				data->phil[i]) == 0)
+		{
+			handle_mutex(&data->monitor, LOCK);
+			data->valid_simulation++;
+			handle_mutex(&data->monitor, UNLOCK);
+		}
+		else
+		{
+			handle_mutex(&data->monitor, LOCK);
+			data->start = 1;
+			handle_mutex(&data->monitor, UNLOCK);
+			return (thread_error(data, i - 1, big_brother));
+		}
 		i++;
 	}
-	i = 0;
-	while (i < data->phil_nbr)
+	i--;
+	handle_mutex(&data->monitor, LOCK);
+	data->start = 1;
+	handle_mutex(&data->monitor, UNLOCK);
+	while (i >= 0)
 	{
-		if (pthread_join(data->phil[i]->thread, NULL))
-			return (1);
-		i++;
+		pthread_join(data->phil[i]->thread, NULL);
+		i--;
 	}
-	if (pthread_join(big_brother, NULL))
-		return (1);
+	pthread_join(big_brother, NULL);
 	return (0);
 }

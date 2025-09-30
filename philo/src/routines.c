@@ -100,7 +100,14 @@ void	*phil_routine(void *args)
 	t_phil	*phil;
 
 	phil = args;
+	while (!get_start(phil->data))
+		usleep(200);
 	handle_mutex(&phil->data->monitor, LOCK);
+	if (phil->data->valid_simulation != phil->data->phil_nbr)
+	{
+		handle_mutex(&phil->data->monitor, UNLOCK);
+		return (NULL);
+	}
 	phil->last_meal = get_time() - phil->data->start_time;
 	handle_mutex(&phil->data->monitor, UNLOCK);
 	if (phil->data->phil_nbr == 1)

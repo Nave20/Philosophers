@@ -89,6 +89,15 @@ void	*monitor_rout(void *arg)
 	data = arg;
 	phil_nbr_full = 0;
 	usleep(1000);
+	while (!get_start(data))
+		usleep(200);
+	handle_mutex(&data->monitor, LOCK);
+	if (data->valid_simulation != data->phil_nbr)
+	{
+		handle_mutex(&data->monitor, UNLOCK);
+		return (NULL);
+	}
+	handle_mutex(&data->monitor, UNLOCK);
 	while (get_status(data) == ALIVE)
 	{
 		if (phil_nbr_full >= data->phil_nbr)

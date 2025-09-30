@@ -63,6 +63,8 @@ typedef struct s_data
 	int					time_to_sleep;
 	int					must_eat;
 	int					error;
+	int					valid_simulation;
+	int					start;
 	t_status			schrodinger;
 	pthread_mutex_t		monitor;
 	pthread_mutex_t		print;
@@ -123,6 +125,7 @@ void	*phil_routine(void *args);
 void	update_phil(t_phil *phil);
 
 //-------------------------------THREAD---------------------------------
+int		get_start(t_data *data);
 int		thread_launch(t_data *data);
 
 //-------------------------------THREAD---------------------------------
