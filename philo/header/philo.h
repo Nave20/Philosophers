@@ -53,6 +53,14 @@ typedef enum e_lock
 //-------------------------------STRUCTS-------------------------------
 
 typedef struct s_phil	t_phil;
+typedef struct s_data	t_data;
+typedef struct s_fork 	t_fork;
+
+typedef struct s_fork
+{
+	pthread_mutex_t		fork_mutex;
+	t_lock				fork_lock;
+}	t_fork;
 
 typedef struct s_data
 {
@@ -68,7 +76,7 @@ typedef struct s_data
 	t_status			schrodinger;
 	pthread_mutex_t		monitor;
 	pthread_mutex_t		print;
-	pthread_mutex_t		*fork_mutex;
+	t_fork				*fork;
 	t_phil				**phil;
 }	t_data;
 
@@ -79,7 +87,7 @@ typedef struct s_phil
 	int					id;
 	int					meal_eaten;
 	long				last_meal;
-	pthread_mutex_t		*forks[2];
+	t_fork				*forks[2];
 	t_data				*data;
 }	t_phil;
 
@@ -118,6 +126,7 @@ void	fork_init(t_data *data);
 
 //--------------------------------MUTEX--------------------------------
 int		handle_mutex(pthread_mutex_t *mutex, t_lock	status);
+int		handle_fork_mutex(t_fork *fork, t_lock status, t_data *data);
 int		get_status(t_data *data);
 
 //-------------------------------ROUTINE--------------------------------

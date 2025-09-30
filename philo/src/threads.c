@@ -77,6 +77,7 @@ int	thread_launch(t_data *data)
 	i--;
 	handle_mutex(&data->monitor, LOCK);
 	data->start = 1;
+	data->start_time = get_time();
 	handle_mutex(&data->monitor, UNLOCK);
 	while (i >= 0)
 	{

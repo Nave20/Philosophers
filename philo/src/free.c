@@ -42,10 +42,10 @@ void	free_data(t_data *data)
 	pthread_mutex_destroy(&data->print);
 	while (i < data->phil_nbr)
 	{
-		pthread_mutex_destroy(&data->fork_mutex[i]);
+		pthread_mutex_destroy(&data->fork[i].fork_mutex);
 		i++;
 	}
-	free(data->fork_mutex);
+	free(data->fork);
 }
 
 int	exit_init(t_data *data, int max)
@@ -57,7 +57,7 @@ int	exit_init(t_data *data, int max)
 	pthread_mutex_destroy(&data->monitor);
 	while (i < max)
 	{
-		pthread_mutex_destroy(&data->fork_mutex[i]);
+		pthread_mutex_destroy(&data->fork[i].fork_mutex);
 		i++;
 	}
 	return (1);

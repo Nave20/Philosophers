@@ -25,8 +25,8 @@ int	data_init(t_data *data)
 		pthread_mutex_destroy(&data->monitor);
 		return (1);
 	}
-	data->fork_mutex = malloc(data->phil_nbr * sizeof(pthread_mutex_t));
-	if (!data->fork_mutex)
+	data->fork = malloc(data->phil_nbr * sizeof(t_fork));
+	if (!data->fork)
 	{
 		pthread_mutex_destroy(&data->print);
 		pthread_mutex_destroy(&data->monitor);
@@ -34,7 +34,8 @@ int	data_init(t_data *data)
 	}
 	while (i < data->phil_nbr)
 	{
-		if (pthread_mutex_init(&data->fork_mutex[i], NULL))
+		data->fork[i].fork_lock = UNLOCK;
+		if (pthread_mutex_init(&data->fork[i].fork_mutex, NULL))
 			return (exit_init(data, i));
 		i++;
 	}
@@ -50,13 +51,13 @@ void	fork_init(t_data *data)
 	{
 		if (i == 0)
 		{
-			data->phil[i]->forks[0] = &data->fork_mutex[i];
-			data->phil[i]->forks[1] = &data->fork_mutex[data->phil_nbr - 1];
+			data->phil[i]->forks[0] = &data->fork[i];
+			data->phil[i]->forks[1] = &data->fork[data->phil_nbr - 1];
 		}
 		else
 		{
-			data->phil[i]->forks[0] = &data->fork_mutex[i];
-			data->phil[i]->forks[1] = &data->fork_mutex[i - 1];
+			data->phil[i]->forks[0] = &data->fork[i];
+			data->phil[i]->forks[1] = &data->fork[i - 1];
 		}
 		i++;
 	}

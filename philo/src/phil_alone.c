@@ -14,7 +14,7 @@
 
 void	*phil_alone(t_phil *phil)
 {
-	handle_mutex(phil->forks[0], LOCK);
+	handle_fork_mutex(phil->forks[0], LOCK, phil->data);
 	print_mutex(FORK, *phil);
 	ft_sleep(phil->data->time_to_die);
 	print_mutex(DIED, *phil);

@@ -14,51 +14,51 @@
 
 int	case_one(t_phil *phil)
 {
-	handle_mutex(phil->forks[1], LOCK);
+	handle_fork_mutex(phil->forks[1], LOCK, phil->data);
 	if (get_status(phil->data) != ALIVE)
 	{
-		handle_mutex(phil->forks[1], UNLOCK);
+		handle_fork_mutex(phil->forks[1], UNLOCK, phil->data);
 		return (1);
 	}
 	print_mutex(FORK, *phil);
-	handle_mutex(phil->forks[0], LOCK);
+	handle_fork_mutex(phil->forks[0], LOCK, phil->data);
 	if (get_status(phil->data) != ALIVE)
 	{
-		handle_mutex(phil->forks[0], UNLOCK);
-		handle_mutex(phil->forks[1], UNLOCK);
+		handle_fork_mutex(phil->forks[0], UNLOCK, phil->data);
+		handle_fork_mutex(phil->forks[1], UNLOCK, phil->data);
 		return (1);
 	}
 	print_mutex(FORK, *phil);
 	print_mutex(EAT, *phil);
-	ft_sleep(phil->data->time_to_eat);
-	handle_mutex(phil->forks[0], UNLOCK);
-	handle_mutex(phil->forks[1], UNLOCK);
 	update_phil(phil);
+	ft_sleep(phil->data->time_to_eat);
+	handle_fork_mutex(phil->forks[0], UNLOCK, phil->data);
+	handle_fork_mutex(phil->forks[1], UNLOCK, phil->data);
 	return (1);
 }
 
 int	case_two(t_phil *phil)
 {
-	handle_mutex(phil->forks[0], LOCK);
+	handle_fork_mutex(phil->forks[0], LOCK, phil->data);
 	if (get_status(phil->data) != ALIVE)
 	{
-		handle_mutex(phil->forks[0], UNLOCK);
+		handle_fork_mutex(phil->forks[0], UNLOCK, phil->data);
 		return (1);
 	}
 	print_mutex(FORK, *phil);
-	handle_mutex(phil->forks[1], LOCK);
+	handle_fork_mutex(phil->forks[1], LOCK, phil->data);
 	if (get_status(phil->data) != ALIVE)
 	{
-		handle_mutex(phil->forks[1], UNLOCK);
-		handle_mutex(phil->forks[0], UNLOCK);
+		handle_fork_mutex(phil->forks[1], UNLOCK, phil->data);
+		handle_fork_mutex(phil->forks[0], UNLOCK, phil->data);
 		return (1);
 	}
 	print_mutex(FORK, *phil);
 	print_mutex(EAT, *phil);
-	ft_sleep(phil->data->time_to_eat);
-	handle_mutex(phil->forks[1], UNLOCK);
-	handle_mutex(phil->forks[0], UNLOCK);
 	update_phil(phil);
+	ft_sleep(phil->data->time_to_eat);
+	handle_fork_mutex(phil->forks[1], UNLOCK, phil->data);
+	handle_fork_mutex(phil->forks[0], UNLOCK, phil->data);
 	return (1);
 }
 
@@ -89,7 +89,12 @@ static void	phil_rout_bis(t_phil *phil)
 			if (get_status(phil->data) == ALIVE)
 			{
 				print_mutex(THINK, *phil);
-				usleep(200);
+				if (phil->id % 2 != 0 && phil->data->time_to_sleep
+					< phil->data->time_to_eat)
+					ft_sleep(phil->data->time_to_eat
+						- phil->data->time_to_sleep);
+				else
+					usleep(200);
 			}
 		}
 	}
@@ -112,8 +117,7 @@ void	*phil_routine(void *args)
 	handle_mutex(&phil->data->monitor, UNLOCK);
 	if (phil->data->phil_nbr == 1)
 		return (phil_alone(phil));
-	if (phil->id == phil->data->phil_nbr - 1)
-		print_mutex(THINK, *phil);
+	print_mutex(THINK, *phil);
 	if (phil->id % 2)
 	{
 		print_mutex(THINK, *phil);

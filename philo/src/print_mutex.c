@@ -23,7 +23,7 @@ void	print_mutex(const char *str, t_phil phil)
 		time = get_time() - phil.data->start_time;
 		handle_mutex(&phil.data->monitor, UNLOCK);
 		printf("\033[37m%ld "RESET BOLD"%d"RESET "%s",
-			time, phil.id, str);
+			time, phil.id + 1, str);
 	}
 	handle_mutex(&phil.data->print, UNLOCK);
 }
@@ -36,6 +36,6 @@ void	print_mutex_die(const char *str, t_phil phil)
 	{
 		time = get_time() - phil.data->start_time;
 		printf("\033[37m%ld "RESET BOLD"%d"RESET "%s",
-			time, phil.id, str);
+			time, phil.id + 1, str);
 	}
 }
