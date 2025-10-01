@@ -27,10 +27,9 @@ void	phil_sleep(t_phil *phil)
 	if (get_status(phil->data) == ALIVE)
 	{
 		print_mutex(THINK, *phil);
-		if (phil->id % 2 != 0 && phil->data->time_to_sleep
-			< phil->data->time_to_eat)
+		if (phil->data->time_to_sleep < phil->data->time_to_eat)
 			ft_sleep(phil->data->time_to_eat
-				- phil->data->time_to_sleep + 20);
+				- phil->data->time_to_sleep + 200);
 		else
 			usleep(200);
 	}
