@@ -6,7 +6,7 @@
 /*   By: vpirotti <vpirotti@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 12:58:00 by vpirotti          #+#    #+#             */
-/*   Updated: 2025/08/19 12:58:00 by vpirotti         ###   ########.fr       */
+/*   Updated: 2025/10/01 14:53:05 by vpirotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	ft_sleep(int time)
 		if (time - elapsed > 10)
 			usleep(1000);
 		else
-			usleep(100);
+			usleep(400);
 	}
 }
 

@@ -16,7 +16,6 @@ void	free_all(t_data *data)
 {
 	free_phil(data);
 	free_data(data);
-	free(data);
 }
 
 void	free_phil(t_data *data)
@@ -60,12 +59,12 @@ int	exit_init(t_data *data, int max)
 		pthread_mutex_destroy(&data->fork[i].fork_mutex);
 		i++;
 	}
+	free(data->fork);
 	return (1);
 }
 
 int	exit_phil(t_data *data)
 {
 	free_data(data);
-	free(data);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: vpirotti <vpirotti@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 11:34:28 by vpirotti          #+#    #+#             */
-/*   Updated: 2025/10/01 11:34:28 by vpirotti         ###   ########.fr       */
+/*   Updated: 2025/10/01 14:53:36 by vpirotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	handle_fork_mutex(t_fork *fork, t_lock status, t_data *data)
 	{
 		while (get_fork_status(fork))
 		{
-			usleep(10);
+			usleep(400);
 			if (get_status(data) != ALIVE)
 				return (1);
 		}
@@ -92,7 +92,7 @@ int	handle_fork_mutex(t_fork *fork, t_lock status, t_data *data)
 	{
 		while (!get_fork_status(fork))
 		{
-			usleep(100);
+			usleep(400);
 			if (get_status(data) != ALIVE)
 				return (1);
 		}

@@ -6,7 +6,7 @@
 /*   By: vpirotti <vpirotti@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 12:14:37 by vpirotti          #+#    #+#             */
-/*   Updated: 2025/09/02 12:14:37 by vpirotti         ###   ########.fr       */
+/*   Updated: 2025/10/01 14:48:24 by vpirotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ t_data	*all_init(int argc, char **argv)
 	no_zero(data);
 	if (data_init(data, 0))
 	{
-		free_data(data);
+		free(data);
 		return (NULL);
 	}
 	return (data);
