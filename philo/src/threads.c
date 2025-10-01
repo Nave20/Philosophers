@@ -33,7 +33,7 @@ int	get_start(t_data *data)
 	return (0);
 }
 
-int thread_error(t_data *data, int i, pthread_t big_b)
+int	thread_error(t_data *data, int i, pthread_t big_b)
 {
 	handle_mutex(&data->monitor, LOCK);
 	data->start = 1;
@@ -47,6 +47,20 @@ int thread_error(t_data *data, int i, pthread_t big_b)
 	return (1);
 }
 
+int	thread_creation(t_data *data, int i, pthread_t big_brother)
+{
+	if (pthread_create(&data->phil[i]->thread, NULL, phil_routine,
+			data->phil[i]) == 0)
+	{
+		handle_mutex(&data->monitor, LOCK);
+		data->valid_simulation++;
+		handle_mutex(&data->monitor, UNLOCK);
+	}
+	else
+		return (thread_error(data, i - 1, big_brother));
+	return (0);
+}
+
 int	thread_launch(t_data *data)
 {
 	int			i;
@@ -58,20 +72,8 @@ int	thread_launch(t_data *data)
 	i = 0;
 	while (i < data->phil_nbr)
 	{
-		if (pthread_create(&data->phil[i]->thread, NULL, phil_routine,
-				data->phil[i]) == 0)
-		{
-			handle_mutex(&data->monitor, LOCK);
-			data->valid_simulation++;
-			handle_mutex(&data->monitor, UNLOCK);
-		}
-		else
-		{
-			handle_mutex(&data->monitor, LOCK);
-			data->start = 1;
-			handle_mutex(&data->monitor, UNLOCK);
-			return (thread_error(data, i - 1, big_brother));
-		}
+		if (thread_creation(data, i, big_brother))
+			return (1);
 		i++;
 	}
 	i--;

@@ -54,7 +54,7 @@ typedef enum e_lock
 
 typedef struct s_phil	t_phil;
 typedef struct s_data	t_data;
-typedef struct s_fork 	t_fork;
+typedef struct s_fork	t_fork;
 
 typedef struct s_fork
 {
@@ -143,6 +143,10 @@ void	print_mutex_die(const char *str, t_phil phil);
 
 //-------------------------------THREAD---------------------------------
 void	*monitor_rout(void *arg);
+
+//--------------------------------FORK----------------------------------
+int		case_one(t_phil *phil);
+int		case_two(t_phil *phil);
 
 //--------------------------------ALONE---------------------------------
 void	*phil_alone(t_phil *phil);

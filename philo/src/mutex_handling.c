@@ -22,47 +22,6 @@ int	get_status(t_data *data)
 	return (res);
 }
 
-int	get_fork_status(t_fork *fork)
-{
-	handle_mutex(&fork->fork_mutex, LOCK);
-	if (fork->fork_lock == UNLOCK)
-	{
-		handle_mutex(&fork->fork_mutex, UNLOCK);
-		return (0);
-	}
-	handle_mutex(&fork->fork_mutex, UNLOCK);
-	return (1);
-}
-
-int	handle_fork_mutex(t_fork *fork, t_lock status, t_data *data)
-{
-	if (status == LOCK)
-	{
-		while (get_fork_status(fork))
-		{
-			usleep(10);
-			if (get_status(data) != ALIVE)
-				return (1);
-		}
-		handle_mutex(&fork->fork_mutex, LOCK);
-		fork->fork_lock = LOCK;
-		handle_mutex(&fork->fork_mutex, UNLOCK);
-	}
-	else if (status == UNLOCK)
-	{
-		while (!get_fork_status(fork))
-		{
-			usleep(10);
-			if (get_status(data) != ALIVE)
-				return (1);
-		}
-		handle_mutex(&fork->fork_mutex, LOCK);
-		fork->fork_lock = UNLOCK;
-		handle_mutex(&fork->fork_mutex, UNLOCK);
-	}
-	return (0);
-}
-
 int	handle_mutex(pthread_mutex_t *mutex, t_lock status)
 {
 	if (status == LOCK)

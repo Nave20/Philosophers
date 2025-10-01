@@ -15,6 +15,7 @@ SRC_FILES       =	main.c				\
 					routines.c			\
 					monitor.c			\
 					phil_alone.c		\
+					fork_management.c	\
 
 SOURCES         = $(addprefix $(SRC_DIR), $(SRC_FILES)) \
 
@@ -24,7 +25,7 @@ HEADER          = $(INC_DIR)philo.h
 NAME            = philo
 
 CC              = cc
-FLAGS           = -Wall -Wextra -Werror -g3 -I$(INC_DIR)
+FLAGS           = -Wall -Wextra -Werror -I$(INC_DIR)
 
 all: $(OBJ_DIR) $(NAME)
 

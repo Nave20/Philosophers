@@ -12,11 +12,8 @@
 
 #include "../header/philo.h"
 
-int	data_init(t_data *data)
+int	data_init(t_data *data, int i)
 {
-	int	i;
-
-	i = 0;
 	data->schrodinger = ALIVE;
 	if (pthread_mutex_init(&data->monitor, NULL))
 		return (1);
@@ -71,7 +68,7 @@ t_data	*all_init(int argc, char **argv)
 	if (!data)
 		return (NULL);
 	no_zero(data);
-	if (data_init(data))
+	if (data_init(data, 0))
 	{
 		free_data(data);
 		return (NULL);
