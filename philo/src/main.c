@@ -28,10 +28,11 @@ int	main(int argc, char **argv)
 		free(data);
 		return (1);
 	}
-	fork_init(data);
+	fork_assignation(data);
 	if (thread_launch(data))
 	{
 		free_all(data);
+		free(data);
 		return (1);
 	}
 	free_all(data);

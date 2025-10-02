@@ -37,6 +37,8 @@ t_data	*parsing_one(int argc, char **argv)
 	t_data	*data;
 
 	data = malloc(sizeof(t_data));
+	if (!data)
+		return (NULL);
 	data->error = 0;
 	data->phil_nbr = ft_atoi(argv[1], data);
 	data->time_to_die = ft_atoi(argv[2], data);

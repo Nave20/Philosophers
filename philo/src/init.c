@@ -39,7 +39,7 @@ int	data_init(t_data *data, int i)
 	return (0);
 }
 
-void	fork_init(t_data *data)
+void	fork_assignation(t_data *data)
 {
 	int	i;
 
@@ -67,7 +67,11 @@ t_data	*all_init(int argc, char **argv)
 	data = parsing_one(argc, argv);
 	if (!data)
 		return (NULL);
-	no_zero(data);
+	if (no_zero(data))
+	{
+		free(data);
+		return (NULL);
+	}
 	if (data_init(data, 0))
 	{
 		free(data);

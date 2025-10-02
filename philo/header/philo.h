@@ -122,7 +122,7 @@ int		exit_phil(t_data *data);
 t_data	*all_init(int argc, char **argv);
 t_phil	*phil_init_bis(t_data *data, int i);
 int		phil_init(t_data *data);
-void	fork_init(t_data *data);
+void	fork_assignation(t_data *data);
 
 //--------------------------------MUTEX--------------------------------
 int		handle_mutex(pthread_mutex_t *mutex, t_lock	status);

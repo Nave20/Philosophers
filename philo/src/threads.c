@@ -12,13 +12,10 @@
 
 #include "../header/philo.h"
 
-void	time_set(t_data *data)
+void	set_sim(t_data *data)
 {
-	handle_mutex(&data->monitor, LOCK);
-	data->start_time = get_time();
 	data->valid_simulation = 0;
 	data->start = 0;
-	handle_mutex(&data->monitor, UNLOCK);
 }
 
 int	get_start(t_data *data)
@@ -66,7 +63,7 @@ int	thread_launch(t_data *data)
 	int			i;
 	pthread_t	big_brother;
 
-	time_set(data);
+	set_sim(data);
 	if (pthread_create(&big_brother, NULL, monitor_rout, data))
 		return (1);
 	i = 0;
@@ -78,8 +75,8 @@ int	thread_launch(t_data *data)
 	}
 	i--;
 	handle_mutex(&data->monitor, LOCK);
-	data->start = 1;
 	data->start_time = get_time();
+	data->start = 1;
 	handle_mutex(&data->monitor, UNLOCK);
 	while (i >= 0)
 	{
