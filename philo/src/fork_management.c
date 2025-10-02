@@ -6,7 +6,7 @@
 /*   By: vpirotti <vpirotti@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 11:34:28 by vpirotti          #+#    #+#             */
-/*   Updated: 2025/10/01 14:53:36 by vpirotti         ###   ########.fr       */
+/*   Updated: 2025/10/02 14:26:14 by vpirotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,31 +34,6 @@ int	case_one(t_phil *phil)
 	ft_sleep(phil->data->time_to_eat);
 	handle_fork_mutex(phil->forks[0], UNLOCK, phil->data);
 	handle_fork_mutex(phil->forks[1], UNLOCK, phil->data);
-	return (1);
-}
-
-int	case_two(t_phil *phil)
-{
-	handle_fork_mutex(phil->forks[0], LOCK, phil->data);
-	if (get_status(phil->data) != ALIVE)
-	{
-		handle_fork_mutex(phil->forks[0], UNLOCK, phil->data);
-		return (1);
-	}
-	print_mutex(FORK, *phil);
-	handle_fork_mutex(phil->forks[1], LOCK, phil->data);
-	if (get_status(phil->data) != ALIVE)
-	{
-		handle_fork_mutex(phil->forks[1], UNLOCK, phil->data);
-		handle_fork_mutex(phil->forks[0], UNLOCK, phil->data);
-		return (1);
-	}
-	print_mutex(FORK, *phil);
-	print_mutex(EAT, *phil);
-	update_phil(phil);
-	ft_sleep(phil->data->time_to_eat);
-	handle_fork_mutex(phil->forks[1], UNLOCK, phil->data);
-	handle_fork_mutex(phil->forks[0], UNLOCK, phil->data);
 	return (1);
 }
 

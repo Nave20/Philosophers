@@ -6,7 +6,7 @@
 /*   By: vpirotti <vpirotti@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 12:41:41 by vpirotti          #+#    #+#             */
-/*   Updated: 2025/09/02 12:41:41 by vpirotti         ###   ########.fr       */
+/*   Updated: 2025/10/02 14:38:02 by vpirotti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,7 @@
 
 int	phil_eat(t_phil *phil)
 {
-	if (phil->forks[0] > phil->forks[1])
-		return (case_one(phil));
-	else
-		return (case_two(phil));
+	return (case_one(phil));
 }
 
 void	phil_sleep(t_phil *phil)
@@ -27,12 +24,6 @@ void	phil_sleep(t_phil *phil)
 	if (get_status(phil->data) == ALIVE)
 	{
 		print_mutex(THINK, *phil);
-		if (phil->data->phil_nbr % 2 != 0 &&
-			phil->data->time_to_sleep < phil->data->time_to_eat)
-			ft_sleep(phil->data->time_to_eat
-				- phil->data->time_to_sleep + 200);
-		else
-			usleep(200);
 	}
 }
 
