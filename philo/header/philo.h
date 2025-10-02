@@ -146,7 +146,6 @@ void	*monitor_rout(void *arg);
 
 //--------------------------------FORK----------------------------------
 int		case_one(t_phil *phil);
-int		case_two(t_phil *phil);
 
 //--------------------------------ALONE---------------------------------
 void	*phil_alone(t_phil *phil);
